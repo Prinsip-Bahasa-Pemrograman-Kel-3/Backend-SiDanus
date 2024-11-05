@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
         'stock',
         'minimum_order',
         'description',
-        'product_category_id'
+        // 'product_category_id'
     ];
 
     public function category()
@@ -33,5 +33,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
     {
         return $this->hasMany(Product_Review::class);
     }
+
+    
 
 }
