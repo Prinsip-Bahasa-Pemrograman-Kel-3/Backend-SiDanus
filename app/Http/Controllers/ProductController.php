@@ -11,7 +11,7 @@ use App\Models\Product_Image;
 
 class ProductController extends Controller
 {
-    public function indexx()
+    public function index()
     {
         $products = Product::all();
         if ($products->isEmpty()) {
