@@ -5,16 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Department extends Model
+class PasswordResetToken extends Model
 {
-    Use HasFactory;
+    use HasFactory;
+
+    protected $table = 'password_reset_tokens';
 
     protected $fillable = [
-        'name'
+        'email',
+        'token'
     ];
-
-    public function students()
-    {
-        return $this->hasMany(AuthStudent::class);
-    }
 }

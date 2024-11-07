@@ -5,13 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Department extends Model
+class Major extends Model
 {
-    Use HasFactory;
+    use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
+        'departement_id'
     ];
+
+    public function departement()
+    {
+        return $this->belongsTo(Department::class);
+    }
 
     public function students()
     {

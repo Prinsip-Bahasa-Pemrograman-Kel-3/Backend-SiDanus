@@ -5,16 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Department extends Model
+class Session extends Model
 {
     Use HasFactory;
 
     protected $fillable = [
-        'name'
+        'id',
+        'user_id',
+        'ip_address',
+        'user_agent',
+        'payload',
+        'last_activity'
     ];
 
-    public function students()
-    {
-        return $this->hasMany(AuthStudent::class);
-    }
+    public $incrementing = false;
 }
