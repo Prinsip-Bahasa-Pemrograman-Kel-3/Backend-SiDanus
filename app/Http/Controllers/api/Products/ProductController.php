@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\api\Products;
 
 use App\Helpers\APIFormatter;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use App\Models\Product_Image;
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 
 
 class ProductController extends Controller

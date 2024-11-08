@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+
 
 class EventController extends Controller
 {

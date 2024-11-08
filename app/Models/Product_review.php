@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Product;
+use App\Models\Students;
+use App\Models\transactions;
 
 class Product_Review extends Model
 {
@@ -23,11 +26,11 @@ class Product_Review extends Model
 
     public function students()
     {
-        return $this->belongsTo(students::class);
+        return $this->belongsTo(Student::class);
     }
 
     public function transactions()
     {
-        return $this->belongsTo(transactions::class);
+        return $this->belongsTo(Transaction::class);
     }
 }

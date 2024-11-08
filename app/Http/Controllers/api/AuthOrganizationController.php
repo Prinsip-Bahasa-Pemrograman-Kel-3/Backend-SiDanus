@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use Illuminate\Http\Request;
-use App\Models\AuthOrganization;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Helpers\APIFormatter;
+use Illuminate\Routing\Controller;
 
 class AuthOrganizationController extends Controller
 {
