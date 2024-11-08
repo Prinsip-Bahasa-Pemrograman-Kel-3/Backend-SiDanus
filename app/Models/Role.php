@@ -15,6 +15,6 @@ class Role extends Model
 
     public function students()
     {
-        return $this->hasMany(AuthStudent::class);
+        return $this->hasMany(Student::class);
     }
 }

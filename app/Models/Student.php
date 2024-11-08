@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class AuthStudent extends Model
+class Student extends Model
 {
     use HasFactory;
 
@@ -24,13 +24,23 @@ class AuthStudent extends Model
         return $this->belongsTo(Major::class);
     }
 
-    public function organization()
-    {
-        return $this->belongsTo(Organization::class);
-    }
+    // public function organization()
+    // {
+    //     return $this->belongsTo(Organization::class);
+    // }
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    public function merchant()
+    {
+        return $this->hasMany(Merchant::class);
+    }
+
+    // public function productReview()
+    // {
+    //     return $this->hasMany(productReview::class);
+    // }
 }

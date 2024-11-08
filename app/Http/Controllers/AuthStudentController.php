@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\AuthStudent;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -28,7 +28,7 @@ class AuthStudentController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $authStudent = AuthStudent::create([
+        $authStudent = Student::create([
             'nim' => $request->nim,
             'avatar' => $request->avatar,
             'major_id' => $request->major_id,

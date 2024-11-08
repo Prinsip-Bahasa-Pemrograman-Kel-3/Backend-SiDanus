@@ -21,9 +21,9 @@ class Merchant extends Model
         'event_id'
     ];
 
-    public function authStudent()
+    public function student()
     {
-        return $this->belongsTo(AuthStudent::class);
+        return $this->belongsTo(Student::class);
     }
 
     public function organization()
