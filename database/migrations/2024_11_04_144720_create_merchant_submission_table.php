@@ -11,8 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('merchant_submission', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->foreignId('merchant_id')
+                ->nullable()
+                ->references('id')
+                ->on('merchants')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->timestamps();
         });
     }
@@ -22,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('merchant_submission');
     }
 };

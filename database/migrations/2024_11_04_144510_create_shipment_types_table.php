@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('auth_students', function (Blueprint $table) {
+        Schema::create('shipment_types', function (Blueprint $table) {
             $table->id();
-            $table->string('nim', 255);
-            $table->string('avatar')->nullable();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('major_id')->constrained();
-            $table->foreignId('organization_id')->constrained();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('auth_students');
+        Schema::dropIfExists('shipment_types');
     }
 };
