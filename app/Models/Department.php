@@ -38,4 +38,9 @@ class Department extends Model
             //
         ];
     }
+
+    public function majors()
+    {
+        return $this->hasMany(Major::class);
+    } 
 }
