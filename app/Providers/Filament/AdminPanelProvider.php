@@ -2,9 +2,13 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Profile;
+use App\Filament\Resources\DepartmentResource\Widgets\DepartmentChartWidget;
+use App\Filament\Resources\MajorResource\Widgets\MajorChartWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -16,6 +20,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
@@ -27,6 +32,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->profile()
+            ->userMenuItems([
+                'profile' => MenuItem::make()->url(fn (): string => Profile::getUrl())->label(fn() => Auth::user()->name)
+            ])
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -39,6 +48,8 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+                DepartmentChartWidget::class,
+                // MajorChartWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

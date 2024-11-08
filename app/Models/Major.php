@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Department extends Model
+class Major extends Model
 {
     use HasFactory;
 
@@ -16,6 +16,7 @@ class Department extends Model
      */
     protected $fillable = [
         'name',
+        'department_id',
     ];
 
     /**
@@ -39,8 +40,16 @@ class Department extends Model
         ];
     }
 
-    public function majors()
+    /**
+     * Get the department that owns the major.
+     */
+    public function department()
     {
-        return $this->hasMany(Major::class);
-    } 
+        return $this->belongsTo(Department::class);
+    }
+
+    // public function students()
+    // {
+    //     return $this->hasMany(Student::class);
+    // }    
 }
