@@ -13,20 +13,28 @@ class ProductImageController extends Controller
 {
     public function index()
     {
-        $product_images = Product_Image::all();
-        if ($product_images->isEmpty()) {
-            return APIFormatter::createAPI(404, 'error', 'Product Images not found', null);
+        try {
+            $product_images = Product_Image::all();
+            if ($product_images->isEmpty()) {
+                return APIFormatter::createAPI(200, 'success', 'Product Images not found', null);
+            }
+            return APIFormatter::createAPI(200, 'success', 'Product Images found', $product_images);
+        } catch (\Throwable $th) {
+            return APIFormatter::createAPI(400, 'error', 'Failed to get product images', $th->getMessage());
         }
-        return APIFormatter::createAPI(200, 'success', 'Product Images found', $product_images);
     }
 
     public function show($id)
     {
-        $product_image = Product_Image::find($id);
-        if (!$product_image) {
-            return APIFormatter::createAPI(404, 'error', 'Product Image not found', null);
+        try {
+            $product_image = Product_Image::find($id);
+            if (!$product_image) {
+                return APIFormatter::createAPI(200, 'success', 'Product Image not found', null);
+            }
+            return APIFormatter::createAPI(200, 'success', 'Product Image found', $product_image);
+        } catch (\Throwable $th) {
+            return APIFormatter::createAPI(400, 'error', 'Failed to get product image', $th->getMessage());
         }
-        return APIFormatter::createAPI(200, 'success', 'Product Image found', $product_image);
     }
 
     public function store(Request $request)
@@ -77,7 +85,7 @@ class ProductImageController extends Controller
         ]);
         $product_images = Product_Image::where('product_id', $id)->get();
         if (!$product_images) {
-            return APIFormatter::createAPI(404, 'error', 'Product Image not found', null);
+            return APIFormatter::createAPI(200, 'success', 'Product Image not found', null);
         }
         DB::beginTransaction();
         try {
@@ -89,7 +97,13 @@ class ProductImageController extends Controller
             $saved_images = [];
 
             foreach ($newImages as $image) {
-                $path = $image->store('public/product_images');
+                $fileName = time() . '_' . $image->getClientOriginalName();
+                $destinationPath = public_path('storage/product_images');
+                $image->move($destinationPath, $fileName);
+                $path = 'storage/product_images/' . $fileName;
+                if (!file_exists($destinationPath . '/' . $fileName)) {
+                    throw new \Exception("Failed to store image.");
+                }
                 $product_image = Product_Image::create([
                     'product_id' => $request->product_id,
                     'image' => $path
@@ -108,7 +122,7 @@ class ProductImageController extends Controller
     {
         $product_images = Product_Image::where('product_id', $id)->get();
         if (!$product_images) {
-            return APIFormatter::createAPI(404, 'error', 'Product Image not found', null);
+            return APIFormatter::createAPI(200, 'success', 'Product Image not found', null);
         }
         DB::beginTransaction();
         try {

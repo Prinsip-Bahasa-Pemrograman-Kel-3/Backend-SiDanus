@@ -12,20 +12,30 @@ class ProductCategoryController extends Controller
 {
     public function index()
     {
-        $product_categories = Product_Category::all();
-        if ($product_categories->isEmpty()) {
-            return APIFormatter::createAPI(404, 'error', 'Product Categories not found', null);
+        try {
+            $product_categories = Product_Category::all();
+            if ($product_categories->isEmpty()) {
+                return APIFormatter::createAPI(200, 'success', 'Product Categories not found', null);
+            }
+            return APIFormatter::createAPI(200, 'success', 'Product Categories found', $product_categories);
+        } catch (\Throwable $th) {
+            return APIFormatter::createAPI(400, 'fail', 'Failed to get product categories', $th->getMessage());
         }
-        return APIFormatter::createAPI(200, 'success', 'Product Categories found', $product_categories);
     }
 
     public function show($id)
     {
-        $product_category = Product_Category::find($id);
-        if (!$product_category) {
-            return APIFormatter::createAPI(404, 'error', 'Product Category not found', null);
+        try {
+            $product_category = Product_Category::find($id);
+            if (!$product_category) {
+                return APIFormatter::createAPI(200, 'success', 'Product Category not found', null);
+            }
+            return APIFormatter::createAPI(200, 'success', 'Product Category found', $product_category);
+        } catch (\Throwable $th) {
+            return APIFormatter::createAPI(400, 'fail', 'Failed to get product category', $th->getMessage());
         }
-        return APIFormatter::createAPI(200, 'success', 'Product Category found', $product_category);
+
+        
     }
 
     public function store(Request $request)
@@ -54,6 +64,9 @@ class ProductCategoryController extends Controller
         DB::beginTransaction();
         try {
             $product_category = Product_Category::findOrFail($id);
+            if (!$product_category) {
+                return APIFormatter::createAPI(200, 'success', 'Product Category not found', null);
+            }
             $product_category->update([
                 'name' => $request->name
             ]);
@@ -70,6 +83,9 @@ class ProductCategoryController extends Controller
         DB::beginTransaction();
         try {
             $product_category = Product_Category::findOrFail($id);
+            if (!$product_category) {
+                return APIFormatter::createAPI(200, 'success', 'Product Category not found', null);
+            }
             $product_category->delete();
             DB::commit();
             return APIFormatter::createAPI(200, 'success', 'Product Category deleted', null);

@@ -21,13 +21,13 @@ class Product_Review extends Model
         return $this->belongsTo(Product::class);
     }
 
-    // public function students()
-    // {
-    //     return $this->belongsTo(students::class);
-    // }
+    public function students()
+    {
+        return $this->belongsTo(students::class);
+    }
 
-    // public function transactions()
-    // {
-    //     return $this->belongsTo(transactions::class);
-    // }
+    public function transactions()
+    {
+        return $this->belongsTo(transactions::class);
+    }
 }
