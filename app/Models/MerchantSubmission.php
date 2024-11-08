@@ -16,9 +16,6 @@ class MerchantSubmission extends Model
         'merchant_id',
     ];
 
-    /**
-     * Relationship with the Merchant model.
-     */
     public function merchant()
     {
         return $this->belongsTo(Merchant::class);
