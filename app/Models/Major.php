@@ -9,18 +9,42 @@ class Major extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'name',
-        'departement_id'
+        'department_id',
     ];
 
-    public function departement()
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        //
+    ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
     {
-        return $this->belongsTo(Department::class);
+        return [
+            //
+        ];
     }
 
-    public function students()
+    /**
+     * Get the department that owns the major.
+     */
+    public function department()
     {
-        return $this->hasMany(Student::class);
+        return $this->belongsTo(Department::class);
     }
 }
