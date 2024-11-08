@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class AuthOrganization extends Authenticatable
+class Organization extends Authenticatable
 {
     // Tentukan tabel jika nama tabel berbeda dari konvensi
-    protected $table = 'auth_organizations';
+    protected $table = 'organizations';
 
     // Kolom yang dapat diisi
     protected $fillable = [

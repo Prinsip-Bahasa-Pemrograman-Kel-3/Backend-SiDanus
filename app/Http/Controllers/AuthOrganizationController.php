@@ -38,121 +38,17 @@ class AuthOrganizationController extends Controller
     }
 
     /**
-     * Display a listing of all organizations.
+     * Logout method for organization.
      */
-    public function index()
+    public function logout(Request $request)
     {
-        // Ambil semua data organisasi
-        $organizations = AuthOrganization::all();
-        return response()->json($organizations);
-    }
-
-    /**
-     * Store a newly created organization in storage.
-     */
-    public function store(Request $request)
-    {
-        // Validasi input untuk data organisasi baru
-        $request->validate([
-            'name' => 'required|string|unique:auth_organizations',
-            'email' => 'required|email|unique:auth_organizations',
-            'password' => 'required|string|min:6',
-            'description' => 'nullable|string',
-        ]);
-
-        // Membuat organisasi baru
-        $organization = new AuthOrganization();
-        $organization->name = $request->input('name');
-        $organization->email = $request->input('email');
-        $organization->password = Hash::make($request->input('password')); // Enkripsi password
-        $organization->description = $request->input('description');
-        $organization->save();
+        // Menghapus token autentikasi organisasi saat ini
+        $request->user()->currentAccessToken()->delete();
 
         return response()->json([
             'success' => true,
-            'message' => 'Organisasi berhasil dibuat.',
-            'organization' => $organization,
-        ], 201);
+            'message' => 'Logout berhasil.',
+        ], 200);
     }
 
-    /**
-     * Display the specified organization by ID.
-     */
-    public function show($id)
-    {
-        // Cari organisasi berdasarkan ID
-        $organization = AuthOrganization::find($id);
-        
-        if ($organization) {
-            return response()->json($organization);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Organisasi tidak ditemukan.'
-            ], 404);
-        }
-    }
-
-    /**
-     * Update the specified organization in storage.
-     */
-    public function update(Request $request, $id)
-    {
-        // Validasi input untuk update data organisasi
-        $request->validate([
-            'name' => 'string|unique:auth_organizations,name,' . $id,
-            'email' => 'email|unique:auth_organizations,email,' . $id,
-            'password' => 'string|min:6',
-            'description' => 'nullable|string',
-        ]);
-
-        // Cari organisasi berdasarkan ID
-        $organization = AuthOrganization::find($id);
-
-        if ($organization) {
-            // Update data organisasi
-            $organization->name = $request->input('name', $organization->name);
-            $organization->email = $request->input('email', $organization->email);
-            if ($request->has('password')) {
-                $organization->password = Hash::make($request->input('password'));
-            }
-            $organization->description = $request->input('description', $organization->description);
-            $organization->save();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Organisasi berhasil diperbarui.',
-                'organization' => $organization,
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Organisasi tidak ditemukan.'
-            ], 404);
-        }
-    }
-
-    /**
-     * Remove the specified organization from storage.
-     */
-    public function destroy($id)
-    {
-        // Cari organisasi berdasarkan ID
-        $organization = AuthOrganization::find($id);
-
-        if ($organization) {
-            // Hapus organisasi
-            $organization->delete();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Organisasi berhasil dihapus.'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Organisasi tidak ditemukan.'
-            ], 404);
-        }
-    }
 }
