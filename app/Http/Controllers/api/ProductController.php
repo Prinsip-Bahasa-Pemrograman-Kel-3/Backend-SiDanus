@@ -1,23 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use App\Helpers\APIFormatter;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use App\Models\Product_Image;
+use App\Http\Controllers\Controller;
 
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
-        if ($products->isEmpty()) {
-            return APIFormatter::createAPI(404, 'error', 'Products not found', null);
+        try {
+            $products = Product::all();
+            if ($products->isEmpty()) {
+                return APIFormatter::createAPI(404, 'error', 'Products not found', null);
+            }
+            return APIFormatter::createAPI(200, 'success', 'Products found', $products);
+        } catch (\Throwable $e) {
+            return APIFormatter::createAPI(400, 'fail', 'Failed to get products', $e->getMessage());
         }
-        return APIFormatter::createAPI(200, 'success', 'Products found', $products);
     }
 
     public function show($id)
@@ -38,8 +43,8 @@ class ProductController extends Controller
                 'price' => 'required|numeric',
                 'stock' => 'required|integer',
                 'minimum_order' => 'required|integer',
-                'description' => 'nullable|string'
-                // 'product_category_id' => 'required|exists:product_categories,id',
+                'description' => 'nullable|string',
+                'product_category_id' => 'required|exists:product_categories,id',
                 // 'merchant_id' => 'required|exists:merchants,id'
             ]);
             $product = Product::create([
@@ -47,8 +52,8 @@ class ProductController extends Controller
                 'price' => $request->price,
                 'stock' => $request->stock,
                 'minimum_order' => $request->minimum_order,
-                'description' => $request->description
-                // 'product_category_id' => $request->product_category_id,
+                'description' => $request->description,
+                'product_category_id' => $request->product_category_id,
                 // 'merchant_id' => $request->merchant_id
             ]);
             DB::commit();
@@ -66,8 +71,8 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'minimum_order' => 'required|integer',
-            'description' => 'nullable|string'
-            // 'product_category_id' => 'required|exists:product_categories,id',
+            'description' => 'nullable|string',
+            'product_category_id' => 'required|exists:product_categories,id',
             // 'merchant_id' => 'required|exists:merchants,id'
         ]);
         DB::beginTransaction();
@@ -78,8 +83,8 @@ class ProductController extends Controller
                 'price' => $request->price,
                 'stock' => $request->stock,
                 'minimum_order' => $request->minimum_order,
-                'description' => $request->description
-                // 'product_category_id' => $request->product_category_id
+                'description' => $request->description,
+                'product_category_id' => $request->product_category_id
             ]);
             DB::commit();
         } catch (\Exception $e) {
@@ -94,7 +99,7 @@ class ProductController extends Controller
         DB::beginTransaction();
         try {
             $product = Product::findOrFail($id);
-            // Product_Image::where('product_id', $id)->delete();
+            Product_Image::where('product_id', $id)->delete();
             $product->delete();
             DB::commit();
             return APIFormatter::createAPI(200, 'success', 'Product deleted', null);

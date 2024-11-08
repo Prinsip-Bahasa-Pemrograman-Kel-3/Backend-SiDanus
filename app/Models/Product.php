@@ -9,14 +9,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
     class Product extends Model
 {
     use HasFactory;
-
+    protected $table = 'products';
     protected $fillable = [
         'name',
         'price',
         'stock',
         'minimum_order',
         'description',
-        // 'product_category_id'
+        'product_category_id'
     ];
 
     public function category()
@@ -34,6 +34,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
         return $this->hasMany(Product_Review::class);
     }
 
-    
+    // public function merchants()
+    // {
+    //     return $this->belongsTo(Merchants::class);
+    // }
 
+    // public function detail_transactions()
+    // {
+    //     return $this->hasMany(Detail_Transaction::class);
+    // }
 }
