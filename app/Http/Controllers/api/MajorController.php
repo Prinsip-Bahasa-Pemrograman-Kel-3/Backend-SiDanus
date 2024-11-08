@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use App\Models\Major;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class MajorController extends Controller
 {

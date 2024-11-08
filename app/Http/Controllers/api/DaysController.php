@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use Illuminate\Http\Request;
 use App\Models\Days;
+use Illuminate\Routing\Controller;
 
 class DaysController extends Controller
 {

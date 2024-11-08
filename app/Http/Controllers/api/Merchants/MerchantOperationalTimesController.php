@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\Merchants;
 
 use Illuminate\Http\Request;
 use App\Models\MerchantOperationalTimes;
+use Illuminate\Routing\Controller;
 
 class MerchantOperationalTimesController extends Controller
 {

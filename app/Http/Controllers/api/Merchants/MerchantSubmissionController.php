@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\Merchants;
 
 use Illuminate\Http\Request;
 use App\Models\MerchantSubmission;
+use Illuminate\Routing\Controller;
 
 class MerchantSubmissionController extends Controller
 {
