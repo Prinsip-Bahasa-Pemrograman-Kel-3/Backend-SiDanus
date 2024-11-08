@@ -35,4 +35,24 @@ class Merchant extends Model
     {
         return $this->belongsTo(Event::class);
     }
+
+    public function merchantOperationalTimes()
+    {
+        return $this->hasMany(MerchantOperationalTimes::class);
+    }
+
+    public function merchantSubmission()
+    {
+        return $this->hasMany(MerchantSubmission::class);
+    }
+
+    // public function product()
+    // {
+    //     return $this->hasMany(Product::class);
+    // }
+
+    // public function transaction()
+    // {
+    //     return $this->hasMany(Transaction::class);
+    // }
 }
