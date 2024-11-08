@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
+use App\Filament\Resources\UsersResource\Pages;
+use App\Filament\Resources\UsersResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -13,7 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class UserResource extends Resource
+class UsersResource extends Resource
 {
     protected static ?string $model = User::class;
 
@@ -25,28 +25,25 @@ class UserResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->label('Name'),
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('email')
-                    ->email()
                     ->required()
-                    ->unique(User::class, 'email')
-                    ->label('Email'),
-                Forms\Components\DateTimePicker::make('email_verified_at')
-                    ->label('Email Verified At'),
+                    ->email()
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
-                    ->label('Password'),
+                    ->maxLength(255),
                 Forms\Components\Select::make('role_id')
                     ->relationship('role', 'name')
-                    ->nullable()
-                    ->label('Role'),
-                Forms\Components\Select::make('current_team_id')
-                    ->relationship('team', 'name')
-                    ->nullable()
-                    ->label('Current Team'),
+                    ->nullable(),
+                Forms\Components\TextInput::make('current_team_id')
+                    ->nullable(),
+                Forms\Components\DateTimePicker::make('email_verified_at')
+                    ->nullable(),
                 Forms\Components\TextInput::make('remember_token')
-                    ->label('Remember Token'),
+                    ->nullable()
+                    ->maxLength(100),
             ]);
     }
 
@@ -54,13 +51,27 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('role.name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime(),
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -80,8 +91,8 @@ class UserResource extends Resource
     {
         return [
             'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'create' => Pages\CreateUsers::route('/create'),
+            'edit' => Pages\EditUsers::route('/{record}/edit'),
         ];
     }
 }
