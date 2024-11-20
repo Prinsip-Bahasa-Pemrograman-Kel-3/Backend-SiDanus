@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
-class Product_Category extends Model
+class ProductCategory extends Model
 {
     use HasFactory;
     protected $table = 'product_categories';
@@ -13,7 +14,7 @@ class Product_Category extends Model
         'name'
     ];
 
-    public function products()
+    public function products(): HasMany
     {
         return $this->hasMany(Product::class);
     }
