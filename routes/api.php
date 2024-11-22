@@ -11,6 +11,11 @@ use App\Http\Controllers\api\Products\ProductCategoryController;
 use App\Http\Controllers\api\Merchants\MerchantSubmissionController;
 use App\Http\Controllers\api\Merchants\MerchantOperationalTimesController;
 use App\Http\Controllers\api\StudentController;
+use App\Http\Controllers\api\Transactions\TransactionsController;
+use App\Http\Controllers\api\Transactions\ShipmentTypesController;
+use App\Http\Controllers\api\Transactions\PaymentTypesController;
+use App\Http\Controllers\api\Transactions\ReasonTransactionsCancellationsController;
+use App\Http\Controllers\api\Transactions\TransactionsCancellationsController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -33,3 +38,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::apiResource ('merchant', MerchantController::class);
 Route::apiResource ('merchant_submission', MerchantSubmissionController::class);
 Route::apiResource('merchant_operational_times', MerchantOperationalTimesController::class);
+
+Route::apiResource('transactions', TransactionsController::class);
+Route::apiResource('shipment_types', ShipmentTypesController::class);
+Route::apiResource('payment_types', PaymentTypesController::class);
+Route::apiResource('reason_transactions_cancellations', ReasonTransactionsCancellationsController::class);
+Route::apiResource('transactions_cancellations', TransactionsCancellationsController::class);
+

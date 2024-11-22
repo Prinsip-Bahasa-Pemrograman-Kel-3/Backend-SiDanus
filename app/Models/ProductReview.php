@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Product;
-use App\Models\Students;
-use App\Models\transactions;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Product_Review extends Model
+
+class ProductReview extends Model
 {
     use HasFactory;
     protected $table = 'product_reviews';
@@ -19,18 +18,18 @@ class Product_Review extends Model
         'rate'
     ];
 
-    public function product()
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    public function students()
+    public function students(): BelongsTo
     {
         return $this->belongsTo(Student::class);
     }
 
-    public function transactions()
+    public function transaction(): BelongsTo
     {
-        return $this->belongsTo(Transaction::class);
+        return $this->belongsTo(Transactions::class);
     }
 }
