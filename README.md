@@ -1,7 +1,7 @@
 ## Daftar Isi
 
 - [Project Laravel Installation Guide](#project-laravel-installation-guide)
-- [Miskonsepsi Mengenai Bahasa Pemrograman](#miskonsepsi-mengenai-bahasa-pemrograman-📚)
+- [Miskonsepsi Mengenai Bahasa Pemrograman](#miskonsepsi-mengenai-bahasa-pemrograman)
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
@@ -118,7 +118,7 @@ If you encounter any issues during installation, consider the following:
 
 This project is open-source and available under the [MIT License](LICENSE).
 
-# MISKONSEPSI MENGENAI BAHASA PEMROGRAMAN 📚
+# MISKONSEPSI MENGENAI BAHASA PEMROGRAMAN
 
 ## Pendahuluan
 Dalam dunia teknologi yang terus berkembang, platform dan bahasa pemrograman seperti Flutter, PHP, dan Laravel sering menjadi pilihan utama bagi para pengembang. Namun, bersama dengan popularitasnya, muncul berbagai miskonsepsi atau kesalahpahaman yang dapat memengaruhi persepsi dan penggunaan teknologi ini.
