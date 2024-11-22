@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DepartmentResource\Pages;
-use App\Filament\Resources\DepartmentResource\RelationManagers;
-use App\Models\Department;
+use App\Filament\Resources\ReasonTransactionsCancellationResource\Pages;
+use App\Filament\Resources\ReasonTransactionsCancellationResource\RelationManagers;
+use App\Models\ReasonTransactionsCancellations;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,19 +13,19 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class DepartmentResource extends Resource
+class ReasonTransactionsCancellationResource extends Resource
 {
-    protected static ?string $model = Department::class;
+    protected static ?string $model = ReasonTransactionsCancellations::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
+    protected static ?string $navigationIcon = 'heroicon-o-exclamation-circle';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('reason')
                     ->required()
-                    ->label('Name'),
+                    ->label('Reason'),
             ]);
     }
 
@@ -36,8 +36,8 @@ class DepartmentResource extends Resource
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                Tables\Columns\TextColumn::make('reason')
+                    ->label('Reason')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -72,9 +72,9 @@ class DepartmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDepartments::route('/'),
-            'create' => Pages\CreateDepartment::route('/create'),
-            'edit' => Pages\EditDepartment::route('/{record}/edit'),
+            'index' => Pages\ListReasonTransactionsCancellations::route('/'),
+            'create' => Pages\CreateReasonTransactionsCancellation::route('/create'),
+            'edit' => Pages\EditReasonTransactionsCancellation::route('/{record}/edit'),
         ];
     }
 }

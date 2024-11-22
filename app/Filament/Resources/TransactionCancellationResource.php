@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DepartmentResource\Pages;
-use App\Filament\Resources\DepartmentResource\RelationManagers;
-use App\Models\Department;
+use App\Filament\Resources\TransactionCancellationResource\Pages;
+use App\Filament\Resources\TransactionCancellationResource\RelationManagers;
+use App\Models\TransactionsCancellations;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,19 +13,26 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class DepartmentResource extends Resource
+class TransactionCancellationResource extends Resource
 {
-    protected static ?string $model = Department::class;
+    protected static ?string $model = TransactionsCancellations::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
+    protected static ?string $navigationIcon = 'heroicon-o-x-circle';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\Select::make('transaction_id')
+                    ->relationship('transaction', 'id')
                     ->required()
-                    ->label('Name'),
+                    ->label('Transaction'),
+                Forms\Components\Select::make('reason_cancellation_id')
+                    ->relationship('reason', 'name')
+                    ->required()
+                    ->label('Reason'),
+                Forms\Components\Textarea::make('description')
+                    ->label('Description'),
             ]);
     }
 
@@ -36,8 +43,16 @@ class DepartmentResource extends Resource
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                Tables\Columns\TextColumn::make('transaction.id')
+                    ->label('Transaction')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('reason.name')
+                    ->label('Reason')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('description')
+                    ->label('Description')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -72,9 +87,9 @@ class DepartmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDepartments::route('/'),
-            'create' => Pages\CreateDepartment::route('/create'),
-            'edit' => Pages\EditDepartment::route('/{record}/edit'),
+            'index' => Pages\ListTransactionCancellations::route('/'),
+            'create' => Pages\CreateTransactionCancellation::route('/create'),
+            'edit' => Pages\EditTransactionCancellation::route('/{record}/edit'),
         ];
     }
 }

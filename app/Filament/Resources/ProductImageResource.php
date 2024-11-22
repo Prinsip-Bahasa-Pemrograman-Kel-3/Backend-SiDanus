@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DepartmentResource\Pages;
-use App\Filament\Resources\DepartmentResource\RelationManagers;
-use App\Models\Department;
+use App\Filament\Resources\ProductImageResource\Pages;
+use App\Filament\Resources\ProductImageResource\RelationManagers;
+use App\Models\ProductImage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,19 +13,23 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class DepartmentResource extends Resource
+class ProductImageResource extends Resource
 {
-    protected static ?string $model = Department::class;
+    protected static ?string $model = ProductImage::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\Select::make('product_id')
+                    ->relationship('product', 'name')
                     ->required()
-                    ->label('Name'),
+                    ->label('Product'),
+                Forms\Components\FileUpload::make('image')
+                    ->required()
+                    ->label('Image'),
             ]);
     }
 
@@ -36,10 +40,13 @@ class DepartmentResource extends Resource
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                Tables\Columns\TextColumn::make('product.name')
+                    ->label('Product')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('Image')
+                    ->url(fn ($record) => $record->image_url),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At')
                     ->dateTime(),
@@ -72,9 +79,9 @@ class DepartmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDepartments::route('/'),
-            'create' => Pages\CreateDepartment::route('/create'),
-            'edit' => Pages\EditDepartment::route('/{record}/edit'),
+            'index' => Pages\ListProductImages::route('/'),
+            'create' => Pages\CreateProductImage::route('/create'),
+            'edit' => Pages\EditProductImage::route('/{record}/edit'),
         ];
     }
 }
