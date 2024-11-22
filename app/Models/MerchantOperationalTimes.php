@@ -25,6 +25,6 @@ class MerchantOperationalTimes extends Model
     // Relasi ke model Merchants
     public function merchant()
     {
-        return $this->belongsTo(Merchants::class, 'merchant_id');
+        return $this->belongsTo(Merchant::class, 'merchant_id');
     }
 }
