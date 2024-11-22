@@ -25,8 +25,8 @@ class StudentController extends Controller
         $validator = Validator::make($request->all(), [
             'nim' => 'required|string|max:10|unique:students',
             'avatar' => 'nullable|string',
-            'major_id' => 'required|exists:majors,id',
-            'organization_id' => 'required|exists:organizations,id',
+            // 'major_id' => 'required|exists:majors,id',
+            // 'organization_id' => 'required|exists:organizations,id',
             'user_id' => 'required|exists:users,id',
         ]);
 
