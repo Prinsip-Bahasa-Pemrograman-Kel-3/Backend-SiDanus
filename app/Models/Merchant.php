@@ -16,9 +16,9 @@ class Merchant extends Model
         'business_email',
         'id_card_image',
         'avatar',
-        'student_id',
-        'organization_id',
-        'event_id'
+        // 'student_id',
+        // 'organization_id',
+        // 'event_id'
     ];
 
     public function student()
