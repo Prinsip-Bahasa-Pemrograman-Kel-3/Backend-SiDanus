@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controller;
+use app\Helpers\APIFormatter;
+use App\Events\UserStatusUpdated;
+use App\Events\TestBroadcastEvent;
 
 class UserController extends Controller
 {
@@ -101,5 +104,37 @@ class UserController extends Controller
         return response()->json([
             'message' => 'User deleted successfully'
         ]);
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'is_active' => 'required|boolean',
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->is_active = $request->is_active;
+        $user->save();
+
+        broadcast(new UserStatusUpdated($user))->toOthers();
+
+        return APIFormatter::createAPI(200, 'User status updated successfully', 'success', $user);
+    }
+
+    public function getActiveUsers()
+    {
+        $activeUsers = User::where('is_active', true)->get();
+
+        return APIFormatter::createAPI(200, 'Active users retrieved successfully', 'success', $activeUsers);
+    }
+
+    public function broadcastMessage(Request $request)
+    {
+        $message = $request->input('message', 'Default test message');
+        
+        // Trigger event broadcast
+        broadcast(new TestBroadcastEvent($message));
+        
+        return response()->json(['status' => 'Message broadcasted!', 'message' => $message]);
     }
 }

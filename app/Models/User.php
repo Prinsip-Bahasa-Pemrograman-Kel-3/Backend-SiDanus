@@ -17,6 +17,7 @@ class User extends Authenticatable
         'role_id',
         'current_team_id',
         'remember_token',
+        'is_active',
     ];
 
     protected $dates = [
