@@ -10,46 +10,81 @@ class MerchantSubmissionController extends Controller
 {
     public function index()
     {
-        $submissions = MerchantSubmission::with('merchant')->get();
-        return response()->json($submissions);
+        try {
+            $submissions = MerchantSubmission::with('merchant')->get();
+            return response()->json($submissions);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => 'Failed to retrieve submissions',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'merchant_id' => 'nullable|exists:merchants,id',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'merchant_id' => 'nullable|exists:merchants,id',
+            ]);
 
-        $submission = MerchantSubmission::create($validatedData);
-        return response()->json($submission, 201);
+            $submission = MerchantSubmission::create($validatedData);
+            return response()->json($submission, 201);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => 'Failed to create submission',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function show($id)
     {
-        $submission = MerchantSubmission::with('merchant')->findOrFail($id);
-        return response()->json($submission);
+        try {
+            $submission = MerchantSubmission::with('merchant')->findOrFail($id);
+            return response()->json($submission);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => 'Failed to retrieve submission',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function update(Request $request, $id)
     {
-        $submission = MerchantSubmission::findOrFail($id);
+        try {
+            $submission = MerchantSubmission::findOrFail($id);
 
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'merchant_id' => 'nullable|exists:merchants,id',
-        ]);
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'merchant_id' => 'nullable|exists:merchants,id',
+            ]);
 
-        $submission->update($validatedData);
-        return response()->json($submission);
+            $submission->update($validatedData);
+            return response()->json($submission);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => 'Failed to update submission',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function destroy($id)
     {
-        $submission = MerchantSubmission::findOrFail($id);
-        $submission->delete();
-        return response()->json([
-            'message' => 'Merchant submission deleted successfully'
-        ]);
+        try {
+            $submission = MerchantSubmission::findOrFail($id);
+            $submission->delete();
+            return response()->json([
+                'message' => 'Merchant submission deleted successfully'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => 'Failed to delete submission',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
